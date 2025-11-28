@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+
+# Data
+data/videos/*.mp4
+data/videos/*.avi
+data/dataset/
+*.jpg
+*.png
+!data/maps/.gitkeep
+
+# Models
+models/*.pt
+runs/
+
+# Output
+output/
+*.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
