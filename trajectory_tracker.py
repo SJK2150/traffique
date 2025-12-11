@@ -365,13 +365,13 @@ class VehicleTrajectoryTracker:
             
             # Draw start point (green circle)
             start_pt = tuple(trajectory[0].astype(int))
-            cv2.circle(vis_frame, start_pt, 8, (0, 255, 0), -1)
-            cv2.circle(vis_frame, start_pt, 10, (255, 255, 255), 2)
+            cv2.circle(vis_frame, start_pt, 5, (0, 255, 0), -1)
+            cv2.circle(vis_frame, start_pt, 7, (255, 255, 255), 2)
             
             # Draw end point (red circle - current vehicle position)
             end_pt = tuple(trajectory[-1].astype(int))
-            cv2.circle(vis_frame, end_pt, 12, (0, 0, 255), -1)
-            cv2.circle(vis_frame, end_pt, 14, (255, 255, 255), 2)
+            cv2.circle(vis_frame, end_pt, 7, (0, 0, 255), -1)
+            cv2.circle(vis_frame, end_pt, 9, (255, 255, 255), 2)
             
             # Draw vehicle ID near end point
             label_pos = (end_pt[0] + 18, end_pt[1] - 8)
@@ -471,15 +471,15 @@ class VehicleTrajectoryTracker:
             
             # Draw start point (large green)
             start_pt = tuple(trajectory[0].astype(int))
-            cv2.circle(img, start_pt, 15, (0, 255, 0), -1)
-            cv2.circle(img, start_pt, 18, (255, 255, 255), 3)
+            cv2.circle(img, start_pt, 10, (0, 255, 0), -1)
+            cv2.circle(img, start_pt, 12, (255, 255, 255), 2)
             cv2.putText(img, "START", (start_pt[0] - 30, start_pt[1] - 25),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
             
             # Draw end point (large red - current position)
             end_pt = tuple(trajectory[-1].astype(int))
-            cv2.circle(img, end_pt, 18, (0, 0, 255), -1)
-            cv2.circle(img, end_pt, 21, (255, 255, 255), 3)
+            cv2.circle(img, end_pt, 12, (0, 0, 255), -1)
+            cv2.circle(img, end_pt, 14, (255, 255, 255), 2)
             cv2.putText(img, "END", (end_pt[0] + 25, end_pt[1] - 25),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2, cv2.LINE_AA)
             

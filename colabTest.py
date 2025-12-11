@@ -9,7 +9,8 @@ import io
 # ==========================================
 # ⚙️ CONFIGURATION
 # ==========================================
-COLAB_URL = "https://sandi-imprescriptible-daine.ngrok-free.dev"  # <--- UPDATE THIS
+# 🛑 UPDATE THIS EVERY TIME YOU RESTART COLAB 🛑
+COLAB_URL = "https://sandi-imprescriptible-daine.ngrok-free.dev" 
 AUTH_TOKEN = "traffique-secure-project"
 # ==========================================
 
@@ -33,18 +34,19 @@ def compress_project(output_filename="project_bundle.zip"):
     
     zip_buffer = io.BytesIO()
     
-    # Folders to IGNORE
+    # Folders/Files to IGNORE
     IGNORE_DIRS = {'.venv', 'venv', 'env', '.git', '__pycache__', '.vscode', '.idea', 'node_modules', 'output'}
-    IGNORE_EXTS = {'.pyc', '.zip', '.mp4'} # Don't zip videos or other zips
+    IGNORE_EXTS = {'.pyc', '.zip'} 
+    # Note: I removed .mp4 from ignore so your video gets uploaded!
+    # If your video is huge, you might want to exclude it and upload manually.
 
     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
         for root, dirs, files in os.walk("."):
-            # Filter out ignored directories
             dirs[:] = [d for d in dirs if d not in IGNORE_DIRS]
             
             for file in files:
                 if any(file.endswith(ext) for ext in IGNORE_EXTS): continue
-                if file == output_filename or file == "colabTest.py": continue # Don't zip self
+                if file == output_filename or file == "colabTest.py": continue
                 
                 file_path = os.path.join(root, file)
                 zip_file.write(file_path, arcname=os.path.relpath(file_path, "."))
@@ -73,12 +75,14 @@ def upload_project():
         print(f"   ❌ Upload connection error: {e}")
         return False
 
-def run_main_script(filename):
-    print(f"🚀 Running {filename} on GPU...")
+def run_main_script(filename, script_args):
+    """Executes the script on the remote server with arguments"""
+    print(f"🚀 Running {filename} on GPU with args: {script_args}...")
     try:
         response = requests.post(
             f"{COLAB_URL}/run", 
-            json={'token': AUTH_TOKEN, 'filename': filename},
+            # ✅ FIX: Sending 'args' in the JSON payload
+            json={'token': AUTH_TOKEN, 'filename': filename, 'args': script_args},
             timeout=600
         )
         if response.status_code == 200:
@@ -86,9 +90,9 @@ def run_main_script(filename):
             print("\n" + "─" * 40)
             print("📜 REMOTE OUTPUT:")
             print("─" * 40)
-            print(data['output'])
+            print(data.get('output', 'No output'))
             print("─" * 40)
-            if data['status'] == 'error': print("❌ Execution Failed")
+            if data.get('status') == 'error': print("❌ Execution Failed")
             else: print("✅ Execution Complete")
         else:
             print(f"❌ Server Error: {response.text}")
@@ -99,6 +103,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("script", help="The main python script to run")
     parser.add_argument("--install", "-i", nargs="+", help="Pip packages", default=[])
+    # This captures all remaining arguments (like your video file)
+    parser.add_argument("args", nargs=argparse.REMAINDER, help="Arguments for the script")
     args = parser.parse_args()
 
     # 1. Install
@@ -109,7 +115,8 @@ def main():
     if not upload_project(): return
 
     # 3. Run
-    run_main_script(args.script)
+    # ✅ FIX: Passing the captured 'args.args' to the function
+    run_main_script(args.script, args.args)
 
 if __name__ == "__main__":
     main()
