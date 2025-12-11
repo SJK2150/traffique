@@ -68,7 +68,11 @@ def smooth_kalman(points: List[Tuple[float, float]], dt: float = 1.0, process_va
     It accepts `dt` for API compatibility though the simple filter here does
     not explicitly use `dt` in state propagation (kept for future extension).
     """
-    if not points:
+    # Handle both numpy arrays and lists
+    if isinstance(points, np.ndarray):
+        points = points.tolist()
+    
+    if len(points) == 0:
         return []
 
     # Ensure no None values; perform simple linear interpolation first
@@ -98,6 +102,67 @@ def smooth_kalman(points: List[Tuple[float, float]], dt: float = 1.0, process_va
 
         out.append((float(x[0]), float(x[1])))
 
+    return out
+
+
+def rts_smoother(points: List[Tuple[float, float]], dt: float = 1.0, process_var: float = 1.0, meas_var: float = 4.0):
+    """Rauch–Tung–Striebel smoother for 2D position+velocity.
+
+    Simple constant-velocity model.
+    Returns list of smoothed (x,y) positions.
+    """
+    if not points:
+        return []
+
+    pts = np.asarray(linear_interpolate(points), dtype=float)
+    n = len(pts)
+
+    # state: [x, y, vx, vy]
+    x = np.zeros((4,))
+    x[0], x[1] = pts[0]
+    x[2], x[3] = 0.0, 0.0
+
+    # Covariances
+    P = np.eye(4) * 1.0
+    Q = np.diag([0.25 * process_var, 0.25 * process_var, process_var, process_var])
+    R = np.eye(2) * meas_var
+
+    # State transition
+    F = np.array([[1, 0, dt, 0], [0, 1, 0, dt], [0, 0, 1, 0], [0, 0, 0, 1]], dtype=float)
+    H = np.array([[1, 0, 0, 0], [0, 1, 0, 0]], dtype=float)
+
+    xs = np.zeros((n, 4))
+    Ps = np.zeros((n, 4, 4))
+
+    # forward pass (Kalman filter)
+    xs[0] = x.copy()
+    Ps[0] = P.copy()
+    for i in range(1, n):
+        # predict
+        x_pred = F @ x
+        P_pred = F @ P @ F.T + Q
+
+        # update with measurement z
+        z = pts[i]
+        S = H @ P_pred @ H.T + R
+        K = P_pred @ H.T @ np.linalg.inv(S)
+        y = z - (H @ x_pred)
+        x = x_pred + K @ y
+        P = (np.eye(4) - K @ H) @ P_pred
+
+        xs[i] = x.copy()
+        Ps[i] = P.copy()
+
+    # backward pass (RTS)
+    x_smooth = xs.copy()
+    P_smooth = Ps.copy()
+    for i in range(n - 2, -1, -1):
+        P_pred = F @ Ps[i] @ F.T + Q
+        C = Ps[i] @ F.T @ np.linalg.inv(P_pred)
+        x_smooth[i] = xs[i] + C @ (x_smooth[i + 1] - (F @ xs[i]))
+        P_smooth[i] = Ps[i] + C @ (P_smooth[i + 1] - P_pred) @ C.T
+
+    out = [(float(x_smooth[i, 0]), float(x_smooth[i, 1])) for i in range(n)]
     return out
 
 
