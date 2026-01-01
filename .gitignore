@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -16,100 +17,49 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Virtual Environments
-venv/
-.venv/
-ENV/
-env/
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
 .env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-# Data & Media Files
-data/videos/*.mp4
-data/videos/*.avi
-data/dataset/
-data/raw_frames/
-data/calibration/*.json
-*.jpg
-*.png
-*.jpeg
-*.gif
-*.bmp
-*.tiff
-*.mp4
-*.avi
-*.mov
-*.mkv
-!data/maps/.gitkeep
-
-# Models & Training
-models/*.pt
-*.pt
-*.pth
-*.weights
-*.onnx
-*.tflite
-runs/
-checkpoints/
-wandb/
-
-# Output & Results
-
-results/
-*.csv
-*.log
-uploads/
-temp_*.jpg
-temp_*.png
-
-# Node.js / Frontend
-node_modules/
-frontend/node_modules/
-frontend/dist/
-frontend/build/
-frontend/.vite/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.npm
-.yarn/
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-# IDE & Editors
+# IDES
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
-.DS_Store
-*.code-workspace
 
-# OS Files
-Thumbs.db
-Desktop.ini
-.directory
-
-# Jupyter Notebooks
-.ipynb_checkpoints/
-*.ipynb
-
-# Cache & Temporary Files
-*.cache
-*.tmp
-.cache/
-temp/
-tmp/
-
-# Environment Variables
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Project Specific - Large Files
+*.mp4
+*.avi
+*.pt
+*.csv
+!D2F1_lclF_v.csv
+traffique_footage/
+visdrone_finetuned/
+runs/
+mydata/
+label_studio_data/

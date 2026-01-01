@@ -1,0 +1,20 @@
+# VisDrone Fine-tuning Dataset
+path: C:\Users\sakth\Documents\Projects\traffique_v2\visdrone_finetuning
+train: images/train
+val: images/val
+
+# Classes
+names:
+  0: pedestrian
+  1: people
+  2: bicycle
+  3: car
+  4: van
+  5: truck
+  6: tricycle
+  7: awning-tricycle
+  8: bus
+  9: motor
+
+# Number of classes
+nc: 10

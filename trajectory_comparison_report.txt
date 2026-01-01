@@ -1,0 +1,66 @@
+================================================================================
+TRAJECTORY COMPARISON REPORT
+================================================================================
+
+Tracked CSV: tracked_5_vehicles.csv
+Ground Truth CSV: D2F1_lclF_v.csv
+
+Number of vehicles compared: 5
+
+--------------------------------------------------------------------------------
+VEHICLE MATCHES
+--------------------------------------------------------------------------------
+Car_1 -> Truck_71
+Car_2 -> Car_18
+Car_3 -> Car_23
+Car_4 -> Car_11
+Truck_1 -> Truck_4
+
+--------------------------------------------------------------------------------
+ERROR STATISTICS
+--------------------------------------------------------------------------------
+
+Car_1 vs Truck_71:
+  RMSE:        345.04 pixels
+  Mean Error:  340.91 ± 53.18 pixels
+  Min Error:   285.19 pixels
+  Max Error:   474.60 pixels
+  Frames:      53
+
+Car_2 vs Car_18:
+  RMSE:        4.33 pixels
+  Mean Error:  3.98 ± 1.71 pixels
+  Min Error:   0.27 pixels
+  Max Error:   10.25 pixels
+  Frames:      500
+
+Car_3 vs Car_23:
+  RMSE:        9.65 pixels
+  Mean Error:  9.36 ± 2.33 pixels
+  Min Error:   2.04 pixels
+  Max Error:   13.05 pixels
+  Frames:      500
+
+Car_4 vs Car_11:
+  RMSE:        5.17 pixels
+  Mean Error:  4.58 ± 2.39 pixels
+  Min Error:   0.59 pixels
+  Max Error:   19.60 pixels
+  Frames:      499
+
+Truck_1 vs Truck_4:
+  RMSE:        5.34 pixels
+  Mean Error:  5.13 ± 1.51 pixels
+  Min Error:   0.94 pixels
+  Max Error:   11.11 pixels
+  Frames:      500
+
+--------------------------------------------------------------------------------
+OVERALL STATISTICS
+--------------------------------------------------------------------------------
+Average RMSE across all vehicles: 73.91 pixels
+Average Mean Error: 72.79 pixels
+Best performing vehicle: Car_2 (RMSE: 4.33 px)
+Worst performing vehicle: Car_1 (RMSE: 345.04 px)
+
+================================================================================

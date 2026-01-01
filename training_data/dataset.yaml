@@ -1,0 +1,14 @@
+names:
+  0: Pedestrian
+  1: People
+  2: Bicycle
+  3: Car
+  4: Van
+  5: Truck
+  6: Tricycle
+  7: Awning-tricycle
+  8: Bus
+  9: Motor
+path: C:\Users\sakth\Documents\Projects\traffique_v2\training_data
+train: images/train
+val: images/val
